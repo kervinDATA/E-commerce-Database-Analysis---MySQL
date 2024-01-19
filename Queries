@@ -1,0 +1,34 @@
+#---------------- TRAFFIC SOURCE ANALYSIS ----------------------
+
+-- nombre de 'website_session_id' et de 'orders' par 'utm_content'
+SELECT
+	website_sessions.utm_content,
+    count(distinct website_sessions.website_session_id) AS session_count,
+    count(distinct orders.order_id) AS orders_count,
+    count(distinct orders.order_id) / count(distinct website_sessions.website_session_id) AS session_to_oder_converstion_rate
+FROM website_sessions
+LEFT JOIN orders
+	ON website_sessions.website_session_id = orders.website_session_id
+GROUP BY website_sessions.utm_content
+ORDER BY session_count DESC ;
+
+-- Comprendre d'où provient la majorité des sessions sur le site, jusqu'au 11 Avril. 
+Fournir un détail par utm_source, utm_campaign et http_referer.
+*/
+SELECT
+	utm_source,
+    utm_campaign,
+    http_referer,
+    count(DISTINCT website_session_id) AS session_count
+FROM website_sessions
+WHERE created_at < '2012-04-12'
+GROUP BY 
+utm_source,
+utm_campaign,
+http_referer
+ORDER BY session_count DESC ;
+
+
+
+
+
