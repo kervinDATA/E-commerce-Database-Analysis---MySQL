@@ -1,6 +1,7 @@
 ---------------- TRAFFIC SOURCE ANALYSIS ----------------------
 
 -- nombre de 'website_session_id' et de 'orders' par 'utm_content'
+
 SELECT
     website_sessions.utm_content,
     count(distinct website_sessions.website_session_id) AS session_count,
@@ -13,6 +14,7 @@ GROUP BY website_sessions.utm_content
 ORDER BY session_count DESC ;
 
 -- Comprendre d'où provient la majorité des sessions sur le site, jusqu'au 11 Avril. Fournir un détail par utm_source, utm_campaign et http_referer.
+
 SELECT
     utm_source,
     utm_campaign,
@@ -25,6 +27,73 @@ GROUP BY
     utm_campaign,
     http_referer
 ORDER BY session_count DESC ;
+
+
+-- Il semble que la recherche nonbrand sur Google (gsearch nonbrand) soit la principale source de trafic, mais nous devons comprendre 
+si ces sessions génèrent des ventes.
+Calcule du taux de conversion (CVR) session-order (jusqu'au 13 Avril)
+
+SELECT
+	count(DISTINCT website_sessions.website_session_id) AS sessions,
+    count(DISTINCT orders.order_id) AS orders,
+    count(DISTINCT orders.order_id) / count(DISTINCT website_sessions.website_session_id) AS conversion_rate
+FROM website_sessions
+LEFT JOIN orders
+	ON website_sessions.website_session_id = orders.website_session_id
+WHERE website_sessions.created_at < '2012-04-14'
+	AND utm_source = 'gsearch' 
+    AND utm_campaign = 'nonbrand' ;
+
+
+------------------- BID OPTIMIZATION AND TREND ANALYSIS -----------------------
+
+-- En fonction de l'analyse du taux de conversion, les enchères pour la recherche nonbrand sur Google ont été diminuée le 15 avril 2012. 
+Demande :  extraire le volume de sessions de recherche nonbrand sur Google, segmenté par semaine, afin de voir si les changements d'enchères ont eu un 
+impact sur la baisse du volume (prendre en compte les données avant le 10 Mai).
+
+SELECT
+    MIN(DATE(created_at)) AS week_start,
+    COUNT(DISTINCT website_session_id) AS sessions_count
+FROM website_sessions
+WHERE created_at < '2012-05-10'
+	AND utm_campaign = 'nonbrand'
+    AND utm_source = 'gsearch'
+GROUP BY
+	YEAR(created_at),
+    WEEK(created_at)
+;
+
+
+-- Après un test du site sur un appareil mobile, le service marketing s'est aperçu que l'expérience n'était pas optimale.
+Demande : extraire les taux de conversion session-order, en fonction du type d'appareil (prendre en compte les données avant le 11 mai.)
+Si les performances sur ordinateur sont meilleures que sur mobile, il est envisagé d'augmenter les enchères spécifiquement pour les 
+utilisateurs sur ordinateur afin d'obtenir d'avantage de volume.
+
+SELECT
+	website_sessions.device_type,
+    COUNT(DISTINCT website_sessions.website_session_id) AS sessions_count,
+    COUNT(DISTINCT orders.order_id) AS orders_count,
+    COUNT(DISTINCT orders.order_id) / COUNT(DISTINCT website_sessions.website_session_id) AS conversion_rate
+FROM website_sessions
+LEFT JOIN orders
+	ON website_sessions.website_session_id = orders.website_session_id
+WHERE website_sessions.created_at < '2012-05-11'
+	AND utm_source = 'gsearch'
+    AND utm_campaign = 'nonbrand'
+GROUP BY website_sessions.device_type
+;
+
+
+-- Suite à l'analyse des taux de conversion par type d'appareil : On s'aperçoit que les performances sur ordinateur étaient bonnes. 
+Par conséquent, les enchères pour les campagnes de recherche nonbrand sur Google (gsearch nonbrand) pour ordinateur ont été augmentée le 19 mai 2012. 
+Demande : extraire les tendances hebdomadaires pour les utilisateurs sur ordinateur et mobile afin que nous puissions voir l'impact sur le volume. 
+Vous pouvez utiliser la période allant du 15 avril 2012 jusqu'au 08 Juin 2012.
+
+
+
+
+
+
 
 
 
