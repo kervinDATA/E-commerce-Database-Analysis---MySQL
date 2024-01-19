@@ -10,5 +10,13 @@ Accéder et explorer la base de données de Fuzzy Factory.
 Devenir l'expert en données de l'entreprise, et la personne référente pour les analyses cruciales.
 Analyser et optimiser les canaux marketing, le site web et le portefeuille de produits de l'entreprise.
 
+FUZZY FACTORY DATABASE : 
+Nous travaillerons avec six tables qui contiennent des données E-commerce sur :
+• L'activité du site web
+• Les produits
+• Les commandes et les remboursements
+
+
+![image](https://github.com/kervinDATA/E-commerce-Database-Analysis---MySQL/assets/156782678/95934054-095b-41ef-b0d8-9dd6349417eb)
 
 
