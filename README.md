@@ -7,7 +7,7 @@ En tant que membre de l'équipe de démarrage, vous travaillerez avec le PDG, le
 L'objectif :
 Utilisation de SQL pour :
 Accéder et explorer la base de données de Fuzzy Factory.
-Devenir l'expert en données de l'entreprise, et la personne référente pour les analyses cruciales
+Devenir l'expert en données de l'entreprise, et la personne référente pour les analyses cruciales.
 Analyser et optimiser les canaux marketing, le site web et le portefeuille de produits de l'entreprise.
 
 
