@@ -11,7 +11,7 @@ Devenir l'expert en données de l'entreprise, et la personne référente pour le
 Analyser et optimiser les canaux marketing, le site web et le portefeuille de produits de l'entreprise.
 
 FUZZY FACTORY DATABASE : 
-Nous travaillerons avec six tables qui contiennent des données E-commerce sur :
+Six tables qui contiennent des données E-commerce sur :
 • L'activité du site web
 • Les produits
 • Les commandes et les remboursements
