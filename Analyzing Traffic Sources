@@ -34,7 +34,7 @@ si ces sessions génèrent des ventes.
 Calcule du taux de conversion (CVR) session-order (jusqu'au 13 Avril)
 
 SELECT
-	count(DISTINCT website_sessions.website_session_id) AS sessions,
+    count(DISTINCT website_sessions.website_session_id) AS sessions,
     count(DISTINCT orders.order_id) AS orders,
     count(DISTINCT orders.order_id) / count(DISTINCT website_sessions.website_session_id) AS conversion_rate
 FROM website_sessions
@@ -56,10 +56,10 @@ SELECT
     COUNT(DISTINCT website_session_id) AS sessions_count
 FROM website_sessions
 WHERE created_at < '2012-05-10'
-	AND utm_campaign = 'nonbrand'
+    AND utm_campaign = 'nonbrand'
     AND utm_source = 'gsearch'
 GROUP BY
-	YEAR(created_at),
+    YEAR(created_at),
     WEEK(created_at)
 ;
 
@@ -70,15 +70,15 @@ Si les performances sur ordinateur sont meilleures que sur mobile, il est envisa
 utilisateurs sur ordinateur afin d'obtenir d'avantage de volume.
 
 SELECT
-	website_sessions.device_type,
+    website_sessions.device_type,
     COUNT(DISTINCT website_sessions.website_session_id) AS sessions_count,
     COUNT(DISTINCT orders.order_id) AS orders_count,
     COUNT(DISTINCT orders.order_id) / COUNT(DISTINCT website_sessions.website_session_id) AS conversion_rate
 FROM website_sessions
 LEFT JOIN orders
-	ON website_sessions.website_session_id = orders.website_session_id
+    ON website_sessions.website_session_id = orders.website_session_id
 WHERE website_sessions.created_at < '2012-05-11'
-	AND utm_source = 'gsearch'
+    AND utm_source = 'gsearch'
     AND utm_campaign = 'nonbrand'
 GROUP BY website_sessions.device_type
 ;
